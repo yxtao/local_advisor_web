@@ -1,13 +1,19 @@
 import React  from 'react';
 import { Container } from '@material-ui/core';
+import { BrowserRouter, Switch, Route } from 'react-router-dom'
 import NavBar from './components/NavBar/navBar'
 import Home from './components/Home/Home'
 const App = () => {      
     return (
-       <Container maxWidth='lg'>
-          <NavBar />
-          <Home /> 
-       </Container>
+      <BrowserRouter>
+         <Container maxWidth='lg'>
+            <NavBar />
+            <Switch>
+               <Route path="/" exact component={Home} />
+            </Switch>
+            <Home /> 
+         </Container>
+      </BrowserRouter>   
     );
 }
 
