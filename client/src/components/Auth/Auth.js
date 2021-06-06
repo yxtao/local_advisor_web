@@ -1,5 +1,5 @@
-import React from 'react'
-import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core'
+import React, { useState }from 'react'
+import { Avatar, Button, Paper, Grid, Typography, Container, formatMs } from '@material-ui/core'
 import { GoogleLogin }from 'react-google-login'
 import useStyles from './styles'
 import Input from './Input'
@@ -7,8 +7,20 @@ import Input from './Input'
 const Auth = () => {
     const isSignup = true
     const classes = useStyles()
+    const[form, setForm] = useState({ firstName: '', lastName: '', email: '', password: ''})
 
-    const handleChange =()=>{
+    const handleChange =(e)=>{
+        setForm({...form,[e.target.name]: e.target.value})
+    }
+    const handleSubmit =(e) =>{
+        e.preventDefault();
+        if(isSignup){
+            //dispatch(signup(form, history));
+            console.log(JSON.stringify(form))
+        }else{
+            //dispatch(signin(form, history));
+            console.log(JSON.stringify(form))
+        }
     }
 
     const responseGoogleSuccess=(response) =>{
@@ -24,19 +36,19 @@ const Auth = () => {
                 <Avatar className={ classes.Avatar }>
                 </Avatar>
                 <Typography component="h1" variant="h5">{ isSignup? "sign up":"sign in" }</Typography>
-                <form className={classes.form} onSubmit={()=>{}}>
+                <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         {
                             isSignup? 
                             (
                             <>
                             <Input name="firstName" label="First Name"  handleChange={handleChange} autoFocus half/>
-                            <Input name="lastName"  label="Pass Word" handleChange={handleChange} half/>
+                            <Input name="lastName"  label="Last Name" handleChange={handleChange} half/>
                             </>   
                             ):null
                         }    
                             <Input name ="email" label="email" type ="email" handleChange={handleChange}/>
-                            <Input name="password" label="password" type="pasword" handleChange={handleChange} />
+                            <Input name="password" label="password" type="password" handleChange={handleChange} />
                     </Grid>
                     <Grid container direction={"column"} spacing={3} alignItems = "center">
                         <Grid item>
