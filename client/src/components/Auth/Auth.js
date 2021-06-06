@@ -1,5 +1,6 @@
 import React from 'react'
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core'
+import { GoogleLogin }from 'react-google-login'
 import useStyles from './styles'
 import Input from './Input'
 
@@ -8,6 +9,13 @@ const Auth = () => {
     const classes = useStyles()
 
     const handleChange =()=>{
+    }
+
+    const responseGoogleSuccess=(response) =>{
+        console.log(response)
+    }
+    const responseGoogleFailure=(err)=>{
+        console.log(err)
     }
 
     return(
@@ -30,7 +38,20 @@ const Auth = () => {
                             <Input name ="email" label="email" type ="email" handleChange={handleChange}/>
                             <Input name="password" label="password" type="pasword" handleChange={handleChange} />
                     </Grid>
-
+                    <Grid container direction={"column"} spacing={3} alignItems = "center">
+                        <Grid item>
+                            <Button type="submit" variant="contained" color="primary">{ isSignup? "sign up" : "sign in" }
+                            </Button>
+                        </Grid>
+                        <Grid item>
+                            <GoogleLogin 
+                                clientId=""
+                                buttonText="Login with Google account"
+                                onSuccess={responseGoogleSuccess}
+                                onFailure={responseGoogleFailure}
+                                cookiePolicy={'single_host_origin'} />
+                        </Grid>
+                    </Grid>
                 </form>
             </Paper>
         </Container>
