@@ -1,13 +1,18 @@
 import React, { useState }from 'react'
-import { Avatar, Button, Paper, Grid, Typography, Container, formatMs } from '@material-ui/core'
+import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core'
 import { GoogleLogin }from 'react-google-login'
+import { useDispatch} from 'react-redux'
+import { useHistory } from 'react-router-dom'
+import { signin, signup } from '../../actions/auth'
 import useStyles from './styles'
 import Input from './Input'
 
 const Auth = () => {
-    const isSignup = true
-    const classes = useStyles()
-    const[form, setForm] = useState({ firstName: '', lastName: '', email: '', password: ''})
+    const isSignup = true ;
+    const classes = useStyles();
+    const dispatch = useDispatch();
+    const history = useHistory();
+    const[form, setForm] = useState({ firstName: '', lastName: '', email: '', password: ''});
 
     const handleChange =(e)=>{
         setForm({...form,[e.target.name]: e.target.value})
@@ -15,11 +20,9 @@ const Auth = () => {
     const handleSubmit =(e) =>{
         e.preventDefault();
         if(isSignup){
-            //dispatch(signup(form, history));
-            console.log(JSON.stringify(form))
+            dispatch(signup(form, history));     
         }else{
-            //dispatch(signin(form, history));
-            console.log(JSON.stringify(form))
+            dispatch(signin(form, history));
         }
     }
 
