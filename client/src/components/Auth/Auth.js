@@ -8,19 +8,18 @@ import useStyles from './styles'
 import Input from './Input'
 
 const Auth = () => {
-    const isSignup = true ;
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const[form, setForm] = useState({ firstName: '', lastName: '', email: '', password: ''});
-
+    const isSignup = true;
     const handleChange =(e)=>{
         setForm({...form,[e.target.name]: e.target.value})
     }
     const handleSubmit =(e) =>{
         e.preventDefault();
         if(isSignup){
-            dispatch(signup(form, history));     
+            dispatch(signup(form, history));  
         }else{
             dispatch(signin(form, history));
         }
