@@ -23,18 +23,17 @@ const NavBar = ()=>{
     }, [location])
     
     return(
-        <AppBar className={classes.appbar} position = "static" color="inherit">
-            <div align="center"> 
-               <Typography component ={Link} to="/" className={classes.heading} variant="h3" align="center">Local Advisor  
-               <img className={ideasPicture.image} src = {ideasPicture} alt="ideas" height="30" />
-               </Typography>
-            </div>  
-            <Toolbar>
+            <AppBar className={classes.appBar} position = "static" color="inherit">
+               <Typography className= {classes.heading} component ={Link} to="/" variant="h3" align="center">Local Advisor  
+               <img className={classes.image} src = {ideasPicture} alt="ideas" height="30" />
+               </Typography> 
+           
+            <Toolbar className={classes.toolbar}>
                 { user ? (
-                    <div>
-                        <Avatar alt={user?.result.firstName} >{user?.result.firstName.charAt(0)}</Avatar>
-                        <Typography>{JSON.stringify(user?.result.firstName)}</Typography>
-                        <Button color="secondary" variant="contained"  onClick={logout}>Log Out</Button>
+                    <div className={classes.profile}>
+                        <Avatar className={classes.purple} alt={user?.result.firstName} >{user?.result.firstName.charAt(0)}</Avatar>
+                        <Typography className={classes.userName}>{user?.result.firstName}</Typography>
+                        <Button  className={classes.logout} color="secondary" variant="contained"  onClick={logout}>Log Out</Button>
                     </div>
                 ) : (
                     <Button component= {Link} to="/auth" color="primary" variant="contained" >Sign up </Button> 
@@ -42,6 +41,7 @@ const NavBar = ()=>{
                 }
             </Toolbar> 
          </AppBar>
+      
     )
 }
 
