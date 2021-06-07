@@ -5,7 +5,7 @@ import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 import { useDispatch } from 'react-redux';
-import { deletePost, likePost } from '../../../actions/posts'
+import { deletePost, likePost, updatePost } from '../../../actions/posts'
 import useStyles from './styles';
 
 const Post = ({ post , setCurrentId }) => {
@@ -18,10 +18,14 @@ const Post = ({ post , setCurrentId }) => {
     }
 
     const likeThePost = () => {
-        dispatch(likePost(post._id),[dispatch]);
+        dispatch(updatePost(post._id, {...post, likeList: post.likeList.concat(user?.result?._id)}),[dispatch]);
     }
     const disableLike =() =>{
-        //alert "can not like you own post"
+        if(user?.result?._id === post?.creator) {
+        alert("Users can not like their own post ");
+        } else{
+            alert("You have liked it before");
+        }
     }
     return (
         <Card className = {classes.card}>
@@ -44,10 +48,10 @@ const Post = ({ post , setCurrentId }) => {
                  <Typography gutterBottom>{post.message}</Typography> 
             </CardContent>
             <CardActions className={classes.CardActions}>
-                <Button size="small" color="primary" onClick={user?.result?._id === post?.creator? disableLike :likeThePost}>
+                <Button size="small" color="primary" onClick={(user?.result?._id === post?.creator || post.likeList.includes(user?.result?._id))? disableLike :likeThePost}>
                     <ThumbUpAltIcon fontSize="small" />
                     { "\xa0 Like "}
-                    {post.likeCount}
+                    {post.likeList.length}
                 </Button>
                 { user?.result?._id === post?.creator? (
                 <Button size="small" color="primary" onClick={deleteThePost}>
