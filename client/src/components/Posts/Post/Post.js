@@ -11,6 +11,7 @@ import useStyles from './styles';
 const Post = ({ post , setCurrentId }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
+    const user = JSON.parse(localStorage.getItem('profile'));
    
     const deleteThePost = () => {
        dispatch(deletePost(post._id), [dispatch] );          
@@ -19,18 +20,21 @@ const Post = ({ post , setCurrentId }) => {
     const likeThePost = () => {
         dispatch(likePost(post._id),[dispatch]);
     }
-
+    const disableLike =() =>{
+        //alert "can not like you own post"
+    }
     return (
         <Card className = {classes.card}>
             <CardMedia className={classes.media} image={post.selectedFile} title = {post.title} />
             <div className={classes.overlay}>
-                <Typography variant ="h6">{post.creator}</Typography>
+                <Typography variant ="h6"> {post.name} </Typography>
                 <Typography variant="body2">{moment(post.createdAt).fromNow()}</Typography>
             </div>
             <div className ={classes.overlay2}>
+                {user?.result._id === post?.creator ? (
                 <Button style={{color:'white'}} size="small" onClick={() => setCurrentId(post._id)} >
                     <MoreHorizIcon fontSize="default" />
-                </Button>
+                </Button>) :null }
             </div>
             <div className={classes.details}>
                 <Typography variant="body2" color="textSecondary">{post.tags.map((tag)=>` #${tag}`)}</Typography>
@@ -40,15 +44,16 @@ const Post = ({ post , setCurrentId }) => {
                  <Typography gutterBottom>{post.message}</Typography> 
             </CardContent>
             <CardActions className={classes.CardActions}>
-                <Button size="small" color="primary" onClick={likeThePost}>
+                <Button size="small" color="primary" onClick={user?.result?._id === post?.creator? disableLike :likeThePost}>
                     <ThumbUpAltIcon fontSize="small" />
                     { "\xa0 Like "}
                     {post.likeCount}
                 </Button>
+                { user?.result?._id === post?.creator? (
                 <Button size="small" color="primary" onClick={deleteThePost}>
                     <DeleteIcon fontSize="small"  />
                     Delete
-                </Button>
+                </Button> ) : null }
             </CardActions>
            </Card>
     );

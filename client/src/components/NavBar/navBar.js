@@ -32,8 +32,8 @@ const NavBar = ()=>{
             <Toolbar>
                 { user ? (
                     <div>
-                        <Avatar alt={user?.firstName} >{user?.firstName.charAt(0)}</Avatar>
-                        <Typography>{JSON.stringify(user?.firstName)}</Typography>
+                        <Avatar alt={user?.result.firstName} >{user?.result.firstName.charAt(0)}</Avatar>
+                        <Typography>{JSON.stringify(user?.result.firstName)}</Typography>
                         <Button color="secondary" variant="contained"  onClick={logout}>Log Out</Button>
                     </div>
                 ) : (

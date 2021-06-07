@@ -14,7 +14,7 @@ const dispatch = useDispatch()
 useEffect(()=>{
    dispatch(getPosts());
 
-    } ,[currentId, dispatch]
+    },[currentId, dispatch]
 )
 
 return(
