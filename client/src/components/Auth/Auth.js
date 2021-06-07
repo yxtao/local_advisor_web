@@ -1,4 +1,4 @@
-import React, { useState }from 'react'
+import React, { useState, useEffect }from 'react'
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core'
 import { GoogleLogin }from 'react-google-login'
 import { useDispatch} from 'react-redux'
@@ -12,7 +12,8 @@ const Auth = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const[form, setForm] = useState({ firstName: '', lastName: '', email: '', password: ''});
-    const isSignup = true;
+    const[buttonText, setButtonText] = useState("Sign up");
+    const [isSignup, setIsSignUp] = useState(false);
     const handleChange =(e)=>{
         setForm({...form,[e.target.name]: e.target.value})
     }
@@ -24,6 +25,9 @@ const Auth = () => {
             dispatch(signin(form, history));
         }
     }
+    const handleSwitch = () =>{
+        setIsSignUp((preState)=>!preState);
+    }
 
     const responseGoogleSuccess=(response) =>{
         console.log(response)
@@ -31,6 +35,11 @@ const Auth = () => {
     const responseGoogleFailure=(err)=>{
         console.log(err)
     }
+
+    useEffect(()=>
+       setButtonText((preState)=> preState === "Sign up" ? "Sign in": "Sign up")
+       ,[isSignup]
+    )
 
     return(
         <Container component="main" maxWidth="xs">
@@ -54,8 +63,10 @@ const Auth = () => {
                     </Grid>
                     <Grid container direction={"column"} spacing={3} alignItems = "center">
                         <Grid item>
-                            <Button type="submit" variant="contained" color="primary">{ isSignup? "sign up" : "sign in" }
-                            </Button>
+                            <Button type="submit" variant="contained" color="primary">{ buttonText } </Button>
+                        </Grid>
+                        <Grid>
+                            <Button variant="contained" color="primary" onClick={handleSwitch}> switch </Button>
                         </Grid>
                         <Grid item>
                             <GoogleLogin 

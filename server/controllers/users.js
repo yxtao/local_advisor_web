@@ -1,5 +1,6 @@
 import User from '../models/user.js';
 
+
 export const signUp = async(req, res)=>{
    const { firstName, lastName, email, password } = req.body;
    const newUser = new User({firstName: firstName, lastName: lastName, email:email, password:password});
@@ -15,13 +16,9 @@ export const signIn = async(req, res)=>{
     const { email, password } = req.body;
     
     try{
-       const user = await User.find({email : email});
-       var hasit= false;
-       if (user[0].password === password){
-           hasit = true;
-       }
-       
-       res.status(201).json({user:user, has:hasit});
+       const oldUser = await User.findOne({email : email});
+     
+       res.status(201).json(oldUser);
     }catch(err){
         res.status(409).json({message: err.message});
     }

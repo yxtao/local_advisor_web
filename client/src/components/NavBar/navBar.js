@@ -30,14 +30,14 @@ const NavBar = ()=>{
                </Typography>
             </div>  
             <Toolbar>
-                {user ? (
+                { user ? (
                     <div>
-                        <Avatar alt={user?.name} >{user?.email.charAt(0)}</Avatar>
-                        <Typography>{user?.email}</Typography>
+                        <Avatar alt={user?.firstName} >{user?.firstName.charAt(0)}</Avatar>
+                        <Typography>{JSON.stringify(user?.firstName)}</Typography>
                         <Button color="secondary" variant="contained"  onClick={logout}>Log Out</Button>
                     </div>
                 ) : (
-                    <Button component= {Link} to="/auth" color="secondary" variant="contained" >Sign up</Button> 
+                    <Button component= {Link} to="/auth" color="primary" variant="contained" >Sign up </Button> 
                     )
                 }
             </Toolbar> 
