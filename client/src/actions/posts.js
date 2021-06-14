@@ -1,14 +1,25 @@
 import * as api from '../api'; 
-import { FETCH_ALL, CREATE, UPDATE, DELETE} from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, DELETE, FETCH_BY_ID} from '../constants/actionTypes';
 
 export const getPosts = () => async (dispatch) => {
     try {
-        const {data} = await api.fetchPosts();
-        const action = {type : FETCH_ALL, payload: data}
+        const { data } = await api.fetchPosts();
+        const action = {type : FETCH_ALL, payload: data};
         dispatch(action);
     }catch (error) {
         console.log(error);
     }  
+}
+
+export const getPostById =(id) => async (dispatch) =>{
+    try {
+        const { data } = await api.fetchPostById(id);
+        const action = {type: FETCH_BY_ID, payload: data};
+        console.log( data );
+        dispatch(action);
+    }catch(error) {
+        console.log(error);
+    }
 }
 
 export const createPost =(post) => async (dispatch) =>{

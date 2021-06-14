@@ -31,9 +31,9 @@ const Form = ({ currentId, setCurrentId }) => {
        clear();
     }
   const clear = () => {
-      setPostData({
-        title:'', message:'',tags:'', selectedFile:'' });
-        setCurrentId(null);
+    setPostData({
+      title:'', message:'',tags:'', selectedFile:'' });
+      setCurrentId(null);   
   }  
 
   return (
