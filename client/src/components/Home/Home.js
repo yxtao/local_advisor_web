@@ -2,19 +2,20 @@ import React , { useState, useEffect } from 'react';
 import { Container, Grow, Grid } from '@material-ui/core';
 import { useDispatch } from 'react-redux';
 import useStyle from './styles'
-import { getPosts } from '../../actions/posts'
+import { getPosts, getPostsByPage } from '../../actions/posts'
 import Posts from '../Posts/Posts'
 import Form from '../Form/Form'
 
 const Home = () =>{
-const [currentId, setCurrentId] = useState(null)
-const classes = useStyle()
-const dispatch = useDispatch()
+const [currentId, setCurrentId] = useState(null);
+const classes = useStyle();
+const dispatch = useDispatch();
+const page = 1;
 
 useEffect(()=>{
-   dispatch(getPosts());
-
-    },[currentId, dispatch]
+    //dispatch(getPosts());
+     dispatch(getPostsByPage(page));
+    },
 )
 
 return(

@@ -34,11 +34,14 @@ const Post = ({ post , setCurrentId }) => {
     const openPost = (e) => {
         history.push(`/posts/${post._id}`)
     }
-    
+
+    if(!post) return null
+
     return (   
+        
         <Card className = {classes.card} >
             <ButtonBase>
-               <Box className={classes.cardClick} onClick={openPost}>
+               <Card className={classes.cardClick} onClick={openPost}>
                 <CardMedia className={classes.media} image={post.selectedFile} title = {post.title} />
                 <div className={classes.overlay}>
                     <Typography variant ="h6"> {post.name} </Typography>
@@ -57,7 +60,7 @@ const Post = ({ post , setCurrentId }) => {
                 <CardContent>  
                     <Typography gutterBottom>{post.message}</Typography> 
                 </CardContent>
-            </Box>
+            </Card>
             </ButtonBase>
             <CardActions className={classes.CardActions}>
                 <Button size="small" color="primary" onClick={(user?.result?._id === post?.creator || post.likeList.includes(user?.result?._id))? disableLike :likeThePost}>
@@ -71,9 +74,7 @@ const Post = ({ post , setCurrentId }) => {
                     Delete
                 </Button> ) : null }
             </CardActions>
-           </Card>
-        
-          
+           </Card>         
     );
 }
 

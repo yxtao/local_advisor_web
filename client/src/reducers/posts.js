@@ -1,4 +1,4 @@
-import { FETCH_ALL, CREATE, UPDATE, DELETE, FETCH_BY_ID, START_LOADING, END_LOADING } from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, DELETE, FETCH_BY_ID, START_LOADING, END_LOADING, FETCH_BY_PAGE } from '../constants/actionTypes';
 
 const reducer = (state= {isLoading: true , posts:[], post: null}, action) =>{
     switch (action.type) {
@@ -8,6 +8,10 @@ const reducer = (state= {isLoading: true , posts:[], post: null}, action) =>{
             return {...state, isLoading: false}; 
         case FETCH_ALL:
             return {...state, posts: action.payload.posts };
+        case FETCH_BY_PAGE:
+            console.log("in reducer");
+            console.log(action.payload);
+            return {...state, posts: action.payload.posts};
         case FETCH_BY_ID:
             return {...state, post: action.payload.post};
         case UPDATE:

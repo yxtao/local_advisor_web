@@ -1,5 +1,5 @@
 import * as api from '../api'; 
-import { FETCH_ALL, CREATE, UPDATE, DELETE, FETCH_BY_ID, START_LOADING, END_LOADING} from '../constants/actionTypes';
+import { FETCH_ALL, CREATE, UPDATE, DELETE, FETCH_BY_ID,FETCH_BY_PAGE, START_LOADING, END_LOADING} from '../constants/actionTypes';
 
 export const getPosts = () => async (dispatch) => {
     try {
@@ -20,6 +20,19 @@ export const getPostById =(id) => async (dispatch) =>{
         const action = {type: FETCH_BY_ID, payload: {post:data}};
         dispatch(action);
         dispatch({ type: END_LOADING});
+    }catch(error) {
+        console.log(error);
+    }
+}
+
+export const getPostsByPage=(page) => async (dispatch) =>{
+    try {
+        dispatch({type:START_LOADING});
+        const response = await api.fetchPostsByPage(page);
+        const action = {type: FETCH_BY_PAGE, payload: {posts: response.data.posts}};
+        console.log("in action" + JSON.stringify(response.data.posts));
+        dispatch(action);
+        dispatch({ type: END_LOADING });
     }catch(error) {
         console.log(error);
     }

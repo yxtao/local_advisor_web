@@ -10,8 +10,6 @@ const Posts = ({ setCurrentId }) => {
     const { posts , isLoading } = useSelector((state) => state.posts);
 
     if (!posts?.length && !isLoading) return 'No posts';
-
-    console.log(posts +"in posts component");
     return (
        isLoading? <CircularProgress /> : (
            <Grid className = {classes.container} container alignItems="stretch" spacing={1}>
