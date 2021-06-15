@@ -1,9 +1,9 @@
 import React, { useState, useEffect }from 'react'
 import { Avatar, Button, Paper, Grid, Typography, Container } from '@material-ui/core'
 import { GoogleLogin }from 'react-google-login'
-import { useDispatch} from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
 import { useHistory } from 'react-router-dom'
-import { signin, signup } from '../../actions/auth'
+import { signin, signup, error } from '../../actions/auth'
 import useStyles from './styles'
 import Input from './Input'
 
@@ -12,21 +12,33 @@ const Auth = () => {
     const dispatch = useDispatch();
     const history = useHistory();
     const[form, setForm] = useState({ firstName: '', lastName: '', email: '', password: ''});
-    const[buttonText, setButtonText] = useState("Sign up");
-    const [isSignup, setIsSignUp] = useState(false);
+    const [isSignUp, setIsSignUp] = useState(true);
+
+    const [message, setMessage] = useState('')
+   
     const handleChange =(e)=>{
         setForm({...form,[e.target.name]: e.target.value})
     }
     const handleSubmit =(e) =>{
         e.preventDefault();
-        if(isSignup){
+        if(isSignUp) {
             dispatch(signup(form, history));  
+            setTimeout(()=> 
+            {setMessage(error===''?"success": error)}, 3000 );   
         }else{
-            dispatch(signin(form, history));
-        }
+            dispatch(signin(form, history));   
+            setMessage("Verifying account .......");
+            setTimeout(()=> 
+                {setMessage(error===''?"success": error)}, 3000 );   
+        } 
+    }  
+
+    const handleSignIn = () =>{
+         setIsSignUp(false);
     }
-    const handleSwitch = () =>{
-        setIsSignUp((preState)=>!preState);
+    
+    const handleSignUp = () =>{
+        setIsSignUp(true);
     }
 
     const responseGoogleSuccess=(response) =>{
@@ -36,21 +48,18 @@ const Auth = () => {
         console.log(err)
     }
 
-    useEffect(()=>
-       setButtonText((preState)=> preState === "Sign up" ? "Sign in": "Sign up")
-       ,[isSignup]
-    )
 
     return(
         <Container component="main" maxWidth="xs">
+            <p> {message} </p>
             <Paper className={ classes.paper } elevation ={ 3 }>
                 <Avatar className={ classes.Avatar }>
                 </Avatar>
-                <Typography component="h1" variant="h5">{ isSignup? "sign up":"sign in" }</Typography>
+                <Typography component="h1" variant="h5"> account </Typography>
                 <form className={classes.form} onSubmit={handleSubmit}>
                     <Grid container spacing={2}>
                         {
-                            isSignup? 
+                            isSignUp? 
                             (
                             <>
                             <Input name="firstName" label="First Name"  handleChange={handleChange} autoFocus half/>
@@ -59,15 +68,18 @@ const Auth = () => {
                             ):null
                         }    
                             <Input name ="email" label="email" type ="email" handleChange={handleChange}/>
-                            <Input name="password" label="password" type="password" handleChange={handleChange} />
+                            <Input name="password" label="password" type="text" handleChange={handleChange} />
                     </Grid>
                     <Grid container direction={"column"} spacing={3} alignItems = "center">
                         <Grid item>
-                            <Button type="submit" variant="contained" color="primary">{ buttonText } </Button>
+                            <Button type="submit" variant="contained" color="primary">submit</Button>
                         </Grid>
-                        <Grid>
-                            <Button variant="contained" color="primary" onClick={handleSwitch}> switch </Button>
+                        <Grid item >
+                            <Button variant="contained" color="primary" onClick={handleSignIn}> Sign in </Button>
+                             &nbsp;&nbsp;&nbsp;&nbsp;
+                            <Button variant="contained" color="primary" onClick={handleSignUp}> Sign up </Button>      
                         </Grid>
+                    
                         <Grid item>
                             <GoogleLogin 
                                 clientId=""

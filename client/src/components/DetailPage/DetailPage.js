@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '../../actions/posts';
-import { Paper, Typography, Grid, Box , CircularProgress } from '@material-ui/core';
+import { Paper, Typography, Grid, Box , CircularProgress, Button } from '@material-ui/core';
 
 const DetailPage = () => {
     const { post , isLoading } = useSelector ((state)=> state.posts);
@@ -38,8 +38,8 @@ const DetailPage = () => {
                 </Box>
               </Grid>
           </Grid>
-            
         </Paper>
+
     );
 }
 

@@ -25,6 +25,24 @@ export const getPostById = async (req, res) => {
     }
 }
 
+export const getPostsBySearchQuery = async (req, res) =>{
+    const { keyword, tags } = req.query;
+    
+    try {
+        const title = new RegExp(keyword, "i");
+        if (tags!=null) {
+            const posts = await PostMessage.find({ $or: [ { title }, { tags: { $in: tags.split(',') } } ]});
+            res.json({ posts: posts });
+        } else {
+            const posts = await PostMessage.find({"title": title});
+            res.json({ posts: posts });
+        }
+        
+    } catch (error) {    
+        res.status(404).json({ message: error.message });
+    }
+}
+
 export const getPostByPage = async (req, res) => {
     const LIMIT = 6;
     const { page } = req.query;;

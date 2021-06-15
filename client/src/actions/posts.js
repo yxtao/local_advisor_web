@@ -29,8 +29,7 @@ export const getPostsByPage=(page) => async (dispatch) =>{
     try {
         dispatch({type:START_LOADING});
         const response = await api.fetchPostsByPage(page);
-        const action = {type: FETCH_BY_PAGE, payload: {posts: response.data.posts}};
-        console.log("in action" + JSON.stringify(response.data.posts));
+        const action = {type: FETCH_BY_PAGE, payload: response.data};
         dispatch(action);
         dispatch({ type: END_LOADING });
     }catch(error) {
@@ -38,6 +37,17 @@ export const getPostsByPage=(page) => async (dispatch) =>{
     }
 }
 
+export const getPostsBySearchQuery = (searchQuery) => async (dispatch) =>{
+    try {
+        dispatch({type:START_LOADING});
+        const response = await api.fetchPostsBySearch(searchQuery);
+        const action = {type: FETCH_BY_PAGE, payload: response.data};
+        dispatch(action);
+        dispatch({ type: END_LOADING });
+    }catch(error) {
+        console.log(error);
+    }
+}
 export const createPost =(post) => async (dispatch) =>{
     try {
         dispatch({type: START_LOADING});

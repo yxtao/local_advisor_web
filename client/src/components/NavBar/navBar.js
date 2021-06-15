@@ -14,7 +14,7 @@ const NavBar = ()=>{
     const location = useLocation();
     const logout= () =>{
         dispatch ({type: actionType.LOGOUT});
-        history.push('/auth');
+        history.push('/');
         setUser(null);
     };
 
@@ -33,10 +33,10 @@ const NavBar = ()=>{
                     <div className={classes.profile}>
                         <Avatar className={classes.purple} alt={user?.result.firstName} >{user?.result.firstName.charAt(0)}</Avatar>
                         <Typography className={classes.userName}>{user?.result.firstName}</Typography>
-                        <Button  className={classes.logout} color="secondary" variant="contained"  onClick={logout}>Log Out</Button>
+                        <Button  component= {Link} to="/"className={classes.logout} color="secondary" variant="contained"  onClick={logout}>Log Out</Button>
                     </div>
                 ) : (
-                    <Button component= {Link} to="/auth" color="primary" variant="contained" >Sign up </Button> 
+                    <Button component= {Link} to="/auth" color="primary" variant="contained" >Sign up to create and like posts </Button> 
                     )
                 }
             </Toolbar> 
