@@ -16,7 +16,7 @@ const Post = ({ post , setCurrentId }) => {
    
     const deleteThePost = () => {
        dispatch(deletePost(post._id), [dispatch] ); 
-       history.push(`/`)  ;      
+       // history.push(`/`)  ;      
     }
 
     const likeThePost = () => {
@@ -57,7 +57,7 @@ const Post = ({ post , setCurrentId }) => {
                 </Card>
             </ButtonBase>
             <CardActions className={classes.CardActions}>
-                <Button size="small" color="primary" onClick={(user?.result?._id === post?.creator || post.likeList.includes(user?.result?._id))? disableLike :likeThePost}>
+                <Button disabled={user==null} size="small" color="primary" onClick={(user?.result?._id === post?.creator || post.likeList.includes(user?.result?._id))? disableLike :likeThePost}>
                     <ThumbUpAltIcon fontSize="small" />
                     { "\xa0 Like "}
                     {post.likeList.length}

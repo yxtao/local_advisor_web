@@ -20,18 +20,18 @@ const Form = ({ currentId, setCurrentId }) => {
   
   useEffect(()=> {
     if(post) setPostData(post);
-  }, [post])
+  }, [post, dispatch])
 
   const handleSubmit = (e) => {
        e.preventDefault();
        
        if(currentId === 0) {
         dispatch(createPost({...postData, name: user?.result?.firstName }))
-        history.push(`/`)  ;   
+       // history.push(`/`)  ;   
        
        } else {
          dispatch(updatePost(currentId,{...postData, name: user?.result?.firstName}),[dispatch]);
-         history.push(`/`)  ;   
+        // history.push(`/`)  ;   
        }
        clear();
     }
