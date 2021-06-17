@@ -1,7 +1,7 @@
 import axios from 'axios';
-
-//const url ="https://local-advisor.herokuapp.com/posts";
-const API = axios.create({baseURL: 'http://localhost:5000'});
+const localUrl = "http://localhost:5000";
+const url ="https://local-advisor-3.herokuapp.com/";
+const API = axios.create({baseURL: url});
 
 API.interceptors.request.use((req)=>{
     if(localStorage.getItem('profile')) {

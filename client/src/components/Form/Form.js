@@ -6,10 +6,10 @@ import{ createPost, updatePost } from '../../actions/posts';
 import { useSelector } from 'react-redux';
 import useStyles from './styles';
 import { useHistory } from 'react-router-dom';
+import * as api from '../../api';
 
 
-const Form = ({ currentId, setCurrentId }) => {
-  const history = useHistory();
+const Form = ({ currentId, setCurrentId  }) => {
   const post = useSelector((state) => currentId ? state.posts.posts.find((p) => p._id === currentId) : null);
   const user = JSON.parse(localStorage.getItem('profile'));
   const [postData, setPostData] = useState({
@@ -20,19 +20,17 @@ const Form = ({ currentId, setCurrentId }) => {
   
   useEffect(()=> {
     if(post) setPostData(post);
-  }, [post, dispatch])
+  }, [post])
 
-  const handleSubmit = (e) => {
+  const handleSubmit =  (e) => {
        e.preventDefault();
        
        if(currentId === 0) {
-        dispatch(createPost({...postData, name: user?.result?.firstName }))
-       // history.push(`/`)  ;   
+        dispatch(createPost({...postData, name: user?.result?.firstName }))  
        
        } else {
-         dispatch(updatePost(currentId,{...postData, name: user?.result?.firstName}),[dispatch]);
-        // history.push(`/`)  ;   
-       }
+        dispatch(updatePost(currentId,{...postData, name: user?.result?.firstName }))
+      }
        clear();
     }
   const clear = () => {

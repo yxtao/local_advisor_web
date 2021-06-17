@@ -1,43 +1,47 @@
-import React from 'react';
+import React, {useState} from 'react';
 import moment from 'moment';
 import { Card , CardActions, CardContent, CardMedia, Button, Typography, ButtonBase, Box } from '@material-ui/core';
 import ThumbUpAltIcon from '@material-ui/icons/ThumbUpAlt';
 import DeleteIcon from '@material-ui/icons/Delete';
 import { useDispatch } from 'react-redux';
-import { deletePost, updatePost } from '../../../actions/posts'
 import useStyles from './styles';
 import { useHistory } from 'react-router-dom';
+import * as api from '../../../api/'; 
 
-const Post = ({ post , setCurrentId }) => {
+const Post = ({post, setCurrentId}) => {
     const classes = useStyles();
     const dispatch = useDispatch();
     const history = useHistory();
     const user = JSON.parse(localStorage.getItem('profile'));
+    const [likes, setLikes] = useState(post?.likeList);
+    const [show, setShow] = useState(true);
    
-    const deleteThePost = () => {
-       dispatch(deletePost(post._id), [dispatch] ); 
-       // history.push(`/`)  ;      
-    }
-
-    const likeThePost = () => {
-        dispatch(updatePost(post._id, {...post, likeList: post.likeList.concat(user?.result?._id)}),[dispatch]);
-    }
-
-    const disableLike =() =>{
-        if(user?.result?._id === post?.creator) {
-        alert("Users can not like their own post");
-        } else{
-            alert("You have liked it already");
+    const handleLike = async ()=>{
+        try {
+            await api.updatePost(post._id, {...post, likeList: post.likeList.concat(user?.result?._id)});
+            setLikes([...post.likeList, user?.result?._id]); 
+        }catch(error) {
+            console.log(error);
         }
     }
 
+    const deleteThePost= async ()=>{
+        try {
+            await api.deletePost(post._id);
+            setShow(false)
+        }catch(error) {
+            console.log(error);
+        }
+    }
+   
+   
     const openPost = (e) => {
         history.push(`/posts/${post._id}`)
     }
 
     if(!post) return null
 
-    return (   
+    return ( !show ? null :    
         
         <Card className = {classes.card} >
             <ButtonBase>
@@ -57,10 +61,10 @@ const Post = ({ post , setCurrentId }) => {
                 </Card>
             </ButtonBase>
             <CardActions className={classes.CardActions}>
-                <Button disabled={user==null} size="small" color="primary" onClick={(user?.result?._id === post?.creator || post.likeList.includes(user?.result?._id))? disableLike :likeThePost}>
+                <Button disabled={user==null || (user?.result?._id === post?.creator || post.likeList.includes(user?.result?._id))} size="small" color="primary" onClick={handleLike}>
                     <ThumbUpAltIcon fontSize="small" />
                     { "\xa0 Like "}
-                    {post.likeList.length}
+                    {likes.length}
                 </Button>
                 { user?.result?._id === post?.creator? (
                 <Button size="small" color="primary" onClick={deleteThePost}>
@@ -77,6 +81,7 @@ const Post = ({ post , setCurrentId }) => {
            </Card>         
     );
 }
+
 
 export default Post;
 

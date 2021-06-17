@@ -12,10 +12,10 @@ const App = () => {
          <Container maxWidth='lg'>
             <NavBar />
             <Switch>
-               <Route path="/" exact component={() => <Redirect from ="/" to= "/posts" />} />
-               <Route path= "/auth" exact component={props =>JSON.parse(localStorage.getItem('profile'))?  <Redirect from ="/auth" to= "/posts" />:<Auth {...props}/> }/>
-               <Route path="/posts" exact component={props => <Home {...props}/>} />
-               <Route path="/posts/:id" exact component={props => <DetailPage {...props}/>} />
+               <Route path="/" exact component={() => <Redirect to= "/posts" />} />
+               <Route path= "/auth" exact component={()=> (JSON.parse(localStorage.getItem('profile'))?  <Redirect to= "/posts" />: <Auth/>)}/>
+               <Route path="/posts" exact component={ Home } />
+               <Route path="/posts/:id" exact component={ DetailPage} />
             </Switch> 
          </Container>
       </BrowserRouter>   

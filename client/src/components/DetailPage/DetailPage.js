@@ -1,19 +1,21 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getPostById } from '../../actions/posts';
 import { Paper, Typography, Grid, Box , CircularProgress, Button } from '@material-ui/core';
+import Form from '../Form/Form'
 
 const DetailPage = () => {
     const { post , isLoading } = useSelector ((state)=> state.posts);
     const params = useParams();
     const id = params.id;
     const dispatch = useDispatch();
+    const [edit, setEdit] = useState (false);
     
     useEffect(()=>{
         dispatch(getPostById(id));
     },[id]);
-
+   
    if(!post) return null;
    
    if (isLoading) {
@@ -32,10 +34,12 @@ const DetailPage = () => {
                 </Box>
               </Grid>
               <Grid container item xs={6}  sm={6} lg={6}>
+                { edit? <p>edit herer</p> :
                 <Box width="100%">
                    <Typography>{post.title}</Typography> 
                    <Typography>{post.message}</Typography> 
                 </Box>
+                  }  
               </Grid>
           </Grid>
         </Paper>

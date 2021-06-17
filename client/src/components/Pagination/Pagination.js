@@ -3,17 +3,15 @@ import { Pagination, PaginationItem } from '@material-ui/lab';
 import { useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
-import { getPostsByPage , getPostsBySearchQuery } from '../../actions/posts';
+import { getPostsByPage } from '../../actions/posts';
 
 const Paginate = ({ page }) =>{
-    const { numberOfPages } = useSelector((state)=> state.posts);
+    const { numberOfPages , render } = useSelector((state)=> state.posts);
     const dispatch = useDispatch();
 
     useEffect(()=>{
-        if(page) {
-           dispatch(getPostsByPage(page));   
-        }
-    }, [ dispatch, page ]);
+          dispatch(getPostsByPage(page));      
+    }, [ page , render]);
 
     return(
         <Pagination
